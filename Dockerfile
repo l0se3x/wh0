@@ -10,7 +10,7 @@ RUN apt-get -yy upgrade
 ENV BUILD_DEPS="git autoconf pkg-config libssl-dev libpam0g-dev \
     libx11-dev libxfixes-dev libxrandr-dev nasm xsltproc flex \
     bison libxml2-dev dpkg-dev libcap-dev"
-RUN apt-get -yy install python-pip firefox xvfb sudo apt-utils software-properties-common $BUILD_DEPS
+RUN apt-get -yy install wget curl python-pip firefox xvfb sudo apt-utils software-properties-common $BUILD_DEPS
 
 # Build pulseaudio
 WORKDIR /root
